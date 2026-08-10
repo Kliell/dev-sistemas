@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <header>
+        <h1>Tela de Login</h1>
+    </header>
+    <main> 
+        <section>
+            <h2>Entrar no sistema</h2>
+            <form id="form-login" action="#" method="post" novalidate>
+                <fieldset>
+                    <div class="campo">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Ex: Kevin Liell" 
+                        required minlength="3" maxlength="100">
+                    </div>
+                    <div class="campo">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" placeholder="Ex: 123456" 
+                        required minlength="6">
+                    </div>
+                    <div class="campo">
+                        <label for="ldm">Lembrar de mim</label>
+                        <input type="checkbox" id="ldm" name="ldm">
+                    </div>
+                    <button type="submit" class="btn-submit">Enviar Formulário</button>
+                    <a href="#">Esqueci minha senha</a>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>Empresa do Kevin 2026</p>
+    </footer>
+</body>
+</html>
