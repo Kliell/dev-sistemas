@@ -14,35 +14,54 @@
         .ativo   { background: #d4edda; color: #155724; }
         .inativo { background: #f8d7da; color: #721c24; }
         #loading { color: #666; padding: 2rem; text-align: center; }
+        .botoes { display:flex; gap:0.5rem; margin-bottom:1rem; }
+.botoes button { padding:0.4rem 1rem; background:#2E5FAC; color:white;
+                  border:none; border-radius:6px; cursor:pointer; font-size:0.9rem; }
+.botoes button:hover { opacity:0.85; }
+
     </style>
 </head>
 <body>
-    <h1>Usuarios da Nossa API</h1>
+    <h1>Usuários da Nossa API</h1>
+    <div class="botoes">
+    <button id="btn-todos">Ver todos</button>
+    <button id="btn-ativos">Ver ativos</button>
+    <button id="btn-inativos">Ver inativos</button>
+</div>
+
     <div id="lista"><p id="loading">Carregando...</p></div>
     <script>
-        const buscarUsuarios = async () => {
-            try {
-                // Buscar da nossa propria API FastAPI
-                const response = await fetch('http://localhost:8000/usuarios');
-                if (!response.ok) throw new Error(`Erro ${response.status}`);
-                const usuarios = await response.json();
+        const lista = document.querySelector('#lista');
 
-                const lista = document.querySelector('#lista');
-                lista.innerHTML = usuarios.map(u => `
-                    <div class="card">
-                        <span class="nome">${u.nome}</span>
-                        <span class="status ${u.ativo ? 'ativo' : 'inativo'}">
-                            ${u.ativo ? 'Ativo' : 'Inativo'}
-                        </span>
-                        <p>${u.cargo}</p>
-                    </div>
-                `).join('');
-            } catch (erro) {
-                document.querySelector('#lista').innerHTML =
-                    '<p style="color:red">Erro: ' + erro.message + '</p>';
-            }
-        };
-        buscarUsuarios();
+const renderizar = (usuarios) => {
+    lista.innerHTML = usuarios.map(u => `
+        <div class="card">
+            <span class="nome">${u.nome}</span>
+            <span class="status ${u.ativo ? 'ativo' : 'inativo'}">
+                ${u.ativo ? 'Ativo' : 'Inativo'}
+            </span>
+            <p>${u.cargo}</p>
+        </div>
+    `).join('');
+};
+
+const buscar = async (rota) => {
+    lista.innerHTML = '<p id="loading">Carregando...</p>';
+    try {
+        const res  = await fetch(`http://localhost:8000${rota}`);
+        const data = await res.json();
+        renderizar(data);
+    } catch (e) {
+        lista.innerHTML = `<p style="color:red">Erro: ${e.message}</p>`;
+    }
+};
+
+document.querySelector('#btn-todos').addEventListener('click',    () => buscar('/usuarios'));
+document.querySelector('#btn-ativos').addEventListener('click',   () => buscar('/usuarios/ativos'));
+document.querySelector('#btn-inativos').addEventListener('click', () => buscar('/usuarios/inativos'));
+
+buscar('/usuarios');
+
     </script>
 </body>
 </html>
